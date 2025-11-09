@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, Variants, cubicBezier } from "framer-motion"
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react"
 
 const Typewriter = ({ text }: { text: string }) => {
@@ -24,7 +24,7 @@ const Typewriter = ({ text }: { text: string }) => {
 }
 
 export default function Hero() {
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -35,12 +35,15 @@ export default function Hero() {
     },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: {
+        duration: 0.8,
+        ease: cubicBezier(0.42, 0, 0.58, 1), // ✅ Type-safe easing
+      },
     },
   }
 
@@ -64,13 +67,19 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+        <motion.h1
+          variants={itemVariants}
+          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+        >
           <span className="block">
             Hi, I'm <span className="animate-glow text-primary">Honey Gyani</span>
           </span>
         </motion.h1>
 
-        <motion.p variants={itemVariants} className="text-xl md:text-2xl text-foreground/80 mb-8 font-light">
+        <motion.p
+          variants={itemVariants}
+          className="text-xl md:text-2xl text-foreground/80 mb-8 font-light"
+        >
           <Typewriter text="Final-year student | Full-Stack Developer | Problem Solver" />
         </motion.p>
 
@@ -78,11 +87,14 @@ export default function Hero() {
           variants={itemVariants}
           className="text-base md:text-lg text-foreground/60 mb-12 max-w-2xl mx-auto leading-relaxed"
         >
-          Crafting beautiful, interactive digital experiences with modern technologies. Passionate about building
-          scalable solutions and creating memorable user interactions.
+          Crafting beautiful, interactive digital experiences with modern technologies. Passionate
+          about building scalable solutions and creating memorable user interactions.
         </motion.p>
 
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+        >
           <motion.a
             href="#projects"
             whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(139, 92, 246, 0.4)" }}
@@ -101,12 +113,11 @@ export default function Hero() {
           </motion.a>
         </motion.div>
 
-        {/* Social Links */}
         <motion.div variants={itemVariants} className="flex justify-center gap-6">
           {[
             { icon: Github, href: "https://github.com/honeygyani", label: "GitHub" },
             { icon: Linkedin, href: "https://linkedin.com/in/honeygyani", label: "LinkedIn" },
-            { icon: Mail, href: "honeygyani2004@gmail.com", label: "Email" },
+            { icon: Mail, href: "mailto:honeygyani2004@gmail.com", label: "Email" },
           ].map(({ icon: Icon, href, label }) => (
             <motion.a
               key={label}
@@ -121,10 +132,9 @@ export default function Hero() {
           ))}
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
           animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+          transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2"
         >
           <ArrowDown className="w-6 h-6 text-primary/50" />
